@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package search.v2;
+
+service SearchService {
+  rpc Search(SearchRequest) returns (SearchResponse);
+}
+
+message SearchRequest {
+  string query = 1; // The search query
+  string type = 2;  // Optional: Filter by type (e.g., ANAGRAM)
+}
+
+message SearchResponse {
+  repeated SearchResult results = 1; // A list of matching results
+}
+
+message SearchResult {
+  string id = 1;           // MongoDB document ID
+  string type = 2;         // Document type (e.g., ANAGRAM)
+  string title = 3;        // Title of the document
+  string solution = 4;     // Solution text
+  repeated Block blocks = 5; // Array of blocks
+
+  message Block {
+    string text = 1;
+    bool show_in_option = 2;
+    bool is_answer = 3;
+  }
+}
